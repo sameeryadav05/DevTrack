@@ -1,23 +1,82 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+
 const userSchema = new mongoose.Schema({
-    name:{
-        type:String,
-        required:true
-    },
     username:{
         type:String,
         required:true,
         unique:true
     },
+    email:{
+        type:String,
+        required:true,
+        trim:true,
+        lowercase:true,
+        unique:true
+    },
     password:{
         type:String,
         required:true,
+        select:false
     },
+    accountVerified:{
+        type:Boolean,
+        default:false
+    },
+    verificationCode:{type:Number},
+    verificationCodeExpire:{type:Date},
+    repositories:[
+        {
+            default:[],
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Repository'
+        }
+
+    ],
+    followedUsers:[
+        {
+            default:[],
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
+        }
+
+    ],
+    starRepositories:[
+        {
+            default:[],
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Repository'
+        }
+
+    ],
     profileImage:{
         type:String,
-        default:'https://imgs.search.brave.com/e_arwYgFLLE8RxnLAHSdAzwsXS2QvQVH6DGZSG0Z7vs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/c2h1dHRlcnN0b2Nr/LmNvbS9pbWFnZS12/ZWN0b3IvZGVmYXVs/dC1hdmF0YXItcHJv/ZmlsZS1pY29uLWdy/ZXktMjYwbnctNTE4/NzQwNzQxLmpwZw'
+        default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAawXym9h3iWX_dAweGdIo3emZpdTQTPwgZw&s'
     }
 },{timestamps:true})
+
+userSchema.pre("save",async function(next){
+    if(!this.isModified('password'))
+    {
+        next()
+    }
+    this.password = await bcrypt.hash(this.password,10)
+})
+
+userSchema.methods.comparePassword = async function(Password)
+{
+    return await bcrypt.compare(Password,this.password)
+}
+
+userSchema.methods.generateVerificationCode = async function(){
+
+    const firstDigit = Math.floor(Math.random() * 9)+1;
+    const remainingDigit = Math.floor(Math.random() * 10000).toString().padStart(4,0)
+    const verificationCode =  parseInt(firstDigit+remainingDigit)
+    this.verificationCode = verificationCode
+    this.verificationCodeExpire = Date.now() + (5*60*1000)
+    return verificationCode
+}
 
 const User = mongoose.model('User',userSchema)
 
