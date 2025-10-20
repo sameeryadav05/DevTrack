@@ -1,0 +1,79 @@
+@use './mixin' as *;
+@use './Variable' as *;
+
+.NotFound-Box {
+  @include flex-center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(120deg, rgba(14, 14, 72, 0.874),$bg-color);
+  text-align: center;
+  color: $text-color;
+  overflow: hidden;
+  position: relative;
+
+  img{
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+  }
+
+  h1 {
+    font-size: 7rem;
+    margin: 0.5rem 0;
+    position: relative;
+
+    span {
+      display: inline-block;
+      color: #ffd700;
+      animation: jump 0.5s ease infinite alternate;
+    }
+
+    @keyframes jump {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-20px); }
+    }
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+
+    p{
+      color: #ffd700;
+      display: inline-block;
+      font-weight: bold;
+    }
+  }
+
+  .stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+
+    span {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 3s infinite;
+
+      @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.5); }
+      }
+    }
+  }
+}
+
+@media screen and (max-width:700px){
+    .NotFound-Box{
+        h1{
+            font-size: 2.5rem;
+        }
+    }
+    
+}

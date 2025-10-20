@@ -17,14 +17,17 @@ const {mainRouter} = require('./routes/main.router.js')
 const mongoose  = require("mongoose");
 const { ExpressError } = require("./utils/ExpressError.js");
 const cookieParser = require('cookie-parser');
-const { removeUnverifiedUser } = require("./cron/removeUnverified.js");
+
 
 dotenv.config();
 
 async function start()
 {
     const app = express();
-    app.use(cors({origin:'*',credentials:true}))
+    app.use(cors({
+        origin:"http://localhost:5173",  // your React app URL
+        credentials: true,                // allow sending cookies
+        }));
     app.use(express.json())
     app.use(express.urlencoded({extended:true}))
     app.use(cookieParser())
@@ -74,7 +77,6 @@ async function start()
             console.log("crud operation called")
         })
 
-    removeUnverifiedUser();
     await mongoose.connect(process.env.MONGODB_URL,{dbName:'DevTrack'})
         .then(()=>console.log('Database connected successfully !'))
         .catch((err)=>{console.log("Failed to connect with database",err.message);process.exit(1)})

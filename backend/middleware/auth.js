@@ -1,25 +1,26 @@
-const { User } = require("../models/user.model");
-const { ExpressError } = require("../utils/ExpressError");
-const { WrapAsync } = require("../utils/WrapAsync");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
+const { ExpressError } = require("../utils/ExpressError.js");
 
+const auth = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
 
-const auth = WrapAsync(async (req,res,next)=>{
+  if (!authHeader) {
+    throw new ExpressError(401, "No token provided");
+  }
 
-    const {token} = req.cookies
+  // Typical authHeader format: "Bearer <token>", extract the token part
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    throw new ExpressError(401, "No token provided");
+  }
 
-    if(!token)
-    {
-        throw new ExpressError(401,"User is not Authenticated")
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    throw new ExpressError(403, "Invalid or expired token");
+  }
+};
 
-    const decoded = await jwt.verify(token,process.env.JWT_SECRET);
-
-    const user = await User.findById(decoded.id)
-    req.user = user
-    next()
-})
-
-
-
-module.exports = {auth}
+module.exports = { auth };

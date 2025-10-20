@@ -11,9 +11,11 @@ UserRouter.post('/resend-code',resendVerificationCode);
 UserRouter.post('/verify-email',verifyEmail);
 UserRouter.post('/login',login);
 UserRouter.post('/logout',auth,logout);
+
 UserRouter.get('/allUsers',getAllUser);
 UserRouter.get('/UserProfile',auth,getUserProfile);
 UserRouter.put('/updateProfile',updateUserProfile);
 UserRouter.get('/deleteProfile',DeleteUserProfile);
+
 
 module.exports = {UserRouter}

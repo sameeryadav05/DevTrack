@@ -1,6 +1,5 @@
 const { ExpressError } = require('../utils/ExpressError.js');
 const { WrapAsync } = require('../utils/WrapAsync.js');
-const bcrypt = require('bcrypt');
 const { User } = require('../models/user.model.js');
 const { generateToken } = require('../utils/Token.js');
 const { generateEmailTemplate } = require('../utils/generateEmailTemplate.js');
@@ -93,7 +92,12 @@ const verifyEmail = WrapAsync(async (req, res) => {
   user.verificationCodeExpire = undefined;
   await user.save();
   const token = generateToken({ id: user._id });
-  res.status(201).cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 7 }).json({ message: "logged in successfully !", token });
+  const userData = {
+    email:user.email,
+    username:user.username,
+    id:user._id
+  }
+  res.status(201).json({ message: "OTP Verifed Successfully !", token ,userData});
 });
 
 const login = WrapAsync(async (req, res) => {
@@ -103,7 +107,7 @@ const login = WrapAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
-    throw new ExpressError(401, "Invalid credentials");
+    return res.status(401).json({ message: "Invalid credentials" });
   }
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
@@ -119,12 +123,21 @@ const login = WrapAsync(async (req, res) => {
     res.status(200).json({ message: "verification code is sent to your email", userId: user._id });
   } else {
     const token = generateToken({ id: user._id });
-    res.status(202).cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 7 }).json({ message: "logged in successfully !", token });
+    const userData = {
+     id:user._id,
+     username:user.username,
+     email:user.email,
+     profile:user.profileImage
+    }
+    res.status(202).json({ message: "logged in successfully !", token ,userData});
   }
 });
 
 const logout = WrapAsync(async (req, res) => {
-  res.clearCookie("token", { httpOnly: true, sameSite: "strict" }).status(200).send("logged out successfully !");
+  res.status(200).send("logged out successfully !");
 });
+
+
+
 
 module.exports = { signup, login, verifyEmail, resendVerificationCode, logout };
