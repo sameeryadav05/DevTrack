@@ -28,7 +28,6 @@ async function start()
         origin:"http://localhost:5173",  // your React app URL
         credentials: true,                // allow sending cookies
         }));
-        
     app.use(express.json())
     app.use(express.urlencoded({extended:true}))
     app.use(cookieParser())

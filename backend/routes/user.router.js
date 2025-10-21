@@ -12,10 +12,10 @@ UserRouter.post('/verify-email',verifyEmail);
 UserRouter.post('/login',login);
 UserRouter.post('/logout',auth,logout);
 
-UserRouter.get('/allUsers',getAllUser);
+UserRouter.get('/allUsers',auth,getAllUser);
 UserRouter.get('/UserProfile',auth,getUserProfile);
-UserRouter.put('/updateProfile',updateUserProfile);
-UserRouter.get('/deleteProfile',DeleteUserProfile);
+UserRouter.put('/updateProfile',auth,updateUserProfile);
+UserRouter.delete('/deleteProfile',auth,DeleteUserProfile);
 
 
 module.exports = {UserRouter}

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const {Repository} = require('./repo.model.js')
 
 const userSchema = new mongoose.Schema({
     username:{
@@ -62,6 +63,14 @@ userSchema.pre("save",async function(next){
     }
     this.password = await bcrypt.hash(this.password,10)
 })
+
+userSchema.post('findOneAndDelete', async (doc) => {
+    if (doc.repositories.length) {
+        await Repository.deleteMany({ _id: { $in: doc.repositories} })
+        console.log(`Deleted ${doc.repositories.length} repositories of user ${doc.username}`)
+    }
+})
+
 
 userSchema.methods.comparePassword = async function(Password)
 {

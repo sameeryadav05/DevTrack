@@ -16,7 +16,9 @@ const repoSchema = new mongoose.Schema({
         }
     ],
     visibility:{
-        type:Boolean,
+        type:String,
+        enum:["public","private"],
+        default:"public"
     },
     owner:{
         type:mongoose.Schema.Types.ObjectId,

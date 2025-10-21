@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { ExpressError } = require("../utils/ExpressError.js");
 
-const auth = (req, res, next) => {
+const auth =async (req, res, next) => {
   const authHeader = req.headers['authorization'];
 
   if (!authHeader) {
@@ -16,6 +16,7 @@ const auth = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded)
     req.user = decoded;
     next();
   } catch (err) {
