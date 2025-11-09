@@ -12,6 +12,7 @@ const Login = () => {
   const setAuthInfo = AuthStore((state) => state.setAuthInfo);
   const isAuthenticated = AuthStore((state) => state.isAuthenticated);
   const [showPassword, setShowPassword] = useState(false);
+    const [loading,setLoading] = useState(false);
   const navigate = useNavigate();
 
   const emailRef = useRef();
@@ -34,6 +35,7 @@ const Login = () => {
   });
 
   const handleLogin = async (formData) => {
+    setLoading(true)
     try {
       const res = await API.post("/login", formData, { withCredentials: true });
       const { token, userData } = res.data;
@@ -45,6 +47,9 @@ const Login = () => {
 
       if (token && userData) {
         setAuthInfo(token, userData);
+        localStorage.setItem("token",token);
+          localStorage.setItem("userData", JSON.stringify(userData));
+          API.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
         API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
@@ -53,6 +58,9 @@ const Login = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "Invalid email or password");
       AuthStore.getState().clearAuth();
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -107,7 +115,7 @@ const Login = () => {
           </div>
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>{loading?"please wait ...":"Login"}</button>
       </form>
     </div>
   );

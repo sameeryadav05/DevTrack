@@ -32,7 +32,7 @@
 
     .Auth-main-box {
       border-radius: 1rem;
-      padding: 0.7rem;
+      padding: 0.5rem;
       height: 60%;
       width: 90%;
 
@@ -56,9 +56,15 @@
       .auth-main-container {
         // height: fit-content;
         @include flex-center;
-        // background-color: white;
+        // padding: 1rem;
+        // background-color: rgba(128, 128, 128, 0.064);
+        // backdrop-filter: blur(4px);
         margin-top: 1rem;
-        padding: 0.2rem;
+        // padding-top: 0.2rem;
+        // padding-bottom: 1rem;
+        // padding-left: 0.2rem;
+        // padding-right: 0.2rem;
+        border-radius: 1rem;
         width: 100%;
       }
     }
@@ -77,5 +83,6 @@
     .auth-box {
       width: 100%;
     }
+
   }
 }

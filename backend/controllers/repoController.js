@@ -40,6 +40,7 @@ const getAllRepositories = WrapAsync(async (req,res)=>{
 
     const repositories = await Repository.find({}).populate("owner").populate("issues");
 
+    // dfdf
 
 
     res.status(200).json(repositories);
