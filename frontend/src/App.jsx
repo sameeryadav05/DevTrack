@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
+import Home from "./pages/Home.jsx";
 import Auth from "./pages/Auth.jsx";
 import OtpVerify from "./pages/OtpVerify.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -16,8 +17,6 @@ import ProtectedRoute from "./layout/ProtectedRoute.jsx";
 import PublicRoute from "./layout/PublicRoute.jsx";
 import { applyTokenToAxios } from "./api/ApplyToken.js";
 import AuthStore from "./store/AuthStore";
-import DashBoard from "./components/dashboard/DashBoard.jsx";
-import Profile from "./components/user/Profile.jsx";
 
 const Layout = () => (
   <>
@@ -36,15 +35,7 @@ const router = createBrowserRouter([
         path: "/",
         element: (
           <ProtectedRoute>
-            <DashBoard/>
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/Profile",
-        element: (
-          <ProtectedRoute>
-            <Profile/>
+            <Home />
           </ProtectedRoute>
         ),
       },

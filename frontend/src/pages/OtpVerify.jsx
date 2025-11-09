@@ -60,7 +60,7 @@ const OtpVerify = () => {
       toast.success(res.data.message || "New verification code sent!");
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Failed to resend verification code"
+        error.response?.data?.message 
       );
     } finally {
       setResendLoading(false);

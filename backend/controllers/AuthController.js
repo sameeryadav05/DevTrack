@@ -14,7 +14,7 @@ const sendVerificationCode = async (verificationCode, email) => {
       message,
     });
   } catch (error) {
-    throw new ExpressError(500, "Failed to send verification code!");
+    throw new ExpressError(500, error);
   }
 };
 
@@ -95,7 +95,6 @@ const verifyEmail = WrapAsync(async (req, res) => {
   const userData = {
     email:user.email,
     username:user.username,
-    profile:user.profileImage,
     id:user._id
   }
   res.status(201).json({ message: "OTP Verifed Successfully !", token ,userData});
