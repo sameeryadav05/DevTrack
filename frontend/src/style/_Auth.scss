@@ -40,7 +40,7 @@
         @include flex-center;
         gap: 2rem;
         button {
-          @include btn;
+          @include btnn;
           background-color: rgba(255, 255, 255, 0.132);
           backdrop-filter: blur(8px);
           color: $text-color;

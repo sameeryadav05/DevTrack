@@ -13,16 +13,19 @@ import Home from "./pages/Home.jsx";
 import Auth from "./pages/Auth.jsx";
 import OtpVerify from "./pages/OtpVerify.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import CreateRepo from "./pages/CreateRepo.jsx";
+import Profile from "./pages/Profile.jsx";
 import ProtectedRoute from "./layout/ProtectedRoute.jsx";
 import PublicRoute from "./layout/PublicRoute.jsx";
 import { applyTokenToAxios } from "./api/ApplyToken.js";
 import AuthStore from "./store/AuthStore";
+import Dashboard from "./components/dashboard/Dashboard.jsx";
 
 const Layout = () => (
   <>
     <Navbar />
     <Outlet />
-    <Footer />
+    <Footer/>
   </>
 );
 
@@ -35,10 +38,18 @@ const router = createBrowserRouter([
         path: "/",
         element: (
           <ProtectedRoute>
-            <Home />
+            <Dashboard/>
           </ProtectedRoute>
         ),
       },
+      {
+        path:'/create/repository',
+        element:<ProtectedRoute><CreateRepo/></ProtectedRoute>
+      },
+      {
+        path:'/profile',
+        element:<ProtectedRoute><Profile/></ProtectedRoute>
+      }
     ],
   },
   {

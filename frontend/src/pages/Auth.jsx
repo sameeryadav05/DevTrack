@@ -5,29 +5,44 @@ import Register from '../components/Register'
 import Login from '../components/Login'
 
 const Auth = () => {
-    const isAuthenticated = AuthStore((state) => state.isAuthenticated)
+  const isAuthenticated = AuthStore((state) => state.isAuthenticated)
+  const [isRegister, setIsRegister] = useState(true)
 
-    console.log(isAuthenticated)
-    const [isRegister,setIsRegister] = useState(true)
   return (
-    <div className='auth-container'>
+    <div className="min-h-screen flex items-center justify-center bg-[#0b0f14] text-white">
 
-        <div className='auth-box'>
-            <div className='logo'>
-                <img src='/fevicon.png'/>
-                <h2>Welcome to DevTrack !</h2>
-            </div>
-            <div className='Auth-main-box'>
-                <div className='btn'>
-                    <button className={`${isRegister ? "active" :""}`} onClick={()=>setIsRegister(true)}>Register</button>
-                    <button className={`${!isRegister ? "active" :""}`} onClick={()=>setIsRegister(false)}>Login</button>
-                </div>
-                <div className='auth-main-container'>
-                    {/* jdjnfdf */}
-                    {isRegister?<Register/>:<Login/>}
-                </div>
-            </div>
+      <div className="w-full max-w-md bg-[#0e131a] rounded-xl p-8 shadow-2xl">
+
+        {/* Logo */}
+        <div className="flex flex-col items-center gap-3 mb-6">
+          <img src="/fevicon.png" className="w-14 h-14" />
+          <h2 className="text-lg font-semibold">Welcome to DevTrack !</h2>
         </div>
+
+        {/* Tabs */}
+        <div className="flex bg-[#1a1f26] rounded-full p-1 mb-6">
+          <button
+            className={`w-1/2 py-2 rounded-full transition ${
+              isRegister ? "bg-[#5b6ae6]" : "text-gray-400"
+            }`}
+            onClick={() => setIsRegister(true)}
+          >
+            Register
+          </button>
+
+          <button
+            className={`w-1/2 py-2 rounded-full transition ${
+              !isRegister ? "bg-[#5b6ae6]" : "text-gray-400"
+            }`}
+            onClick={() => setIsRegister(false)}
+          >
+            Login
+          </button>
+        </div>
+
+        {/* Forms */}
+        {isRegister ? <Register /> : <Login />}
+      </div>
     </div>
   )
 }

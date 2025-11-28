@@ -19,7 +19,8 @@ const auth =async (req, res, next) => {
     console.log(decoded)
     req.user = decoded;
     next();
-  } catch (err) {
+  } 
+  catch (err) {
     throw new ExpressError(403, "Invalid or expired token");
   }
 };

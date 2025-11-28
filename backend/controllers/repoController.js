@@ -81,7 +81,7 @@ const DeleteRepository = async (req,res)=>{
 const fetchRepositoryForCurrentUser = WrapAsync(async (req,res)=>{
 
     const userId = req.user.id;
-    const repositories = await Repository.find({owner:userId});
+    const repositories = await Repository.find({owner:userId}).populate("owner");
 
     if(!repositories.length)
     {

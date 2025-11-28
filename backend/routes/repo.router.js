@@ -13,7 +13,7 @@ RepoRouter.get('/repo/:id',fetchRepositoryById);
 RepoRouter.get('/repo/name/:name',fetchRepositoryByName);
 RepoRouter.put('/repo/update/:id',auth,updateRepositoryById);
 RepoRouter.delete('/repo/delete/:id',auth,DeleteRepository);
-RepoRouter.patch('/repo/toogle/:id',auth,ToogleVisibilityById)
+RepoRouter.patch('/repo/toogle/:id',auth,ToogleVisibilityById);
 
 
 

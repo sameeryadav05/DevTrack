@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
     ],
     profileImage:{
         type:String,
-        default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAawXym9h3iWX_dAweGdIo3emZpdTQTPwgZw&s'
+        default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwVLdSDmgrZN7TkzbHJb8dD0_7ASUQuERL2A&s'
     }
 },{timestamps:true})
 
