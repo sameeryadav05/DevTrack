@@ -73,10 +73,10 @@ async function start()
         })
     })
 
-    const db = mongoose.connection;
-        db.once("open",async ()=>{
-            console.log("crud operation called")
-        })
+    // const db = mongoose.connection;
+    //     db.once("open",async ()=>{
+    //         console.log("crud operation called")
+    //     })
 
     await mongoose.connect(process.env.MONGODB_URL,{dbName:'DevTrack'})
         .then(()=>console.log('Database connected successfully !'))
