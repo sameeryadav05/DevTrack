@@ -8,6 +8,7 @@ import {motion} from 'motion/react'
 
 
 import { FaCalendarAlt, FaCode, FaUsers } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 const events = [
   {
@@ -44,6 +45,7 @@ const Dashboard = () => {
     const [searchResults,setSearchResults] = useState([])
     // const userId = AuthStore.getState().user.id;
     // console.log(userId)
+    const navigate = useNavigate()
 
     useEffect(()=>{
         // const item = localStorage.getItem('Devtrack-token')
@@ -105,7 +107,7 @@ const Dashboard = () => {
     >
       <div className="flex justify-between items-center mb-3">
         <h1 className="text-lg font-semibold">Top repositories</h1>
-        <button className="flex gap-2 items-center bg-green-900 px-3 py-1 rounded-lg text-sm">
+        <button className="flex gap-2 items-center bg-green-900 px-3 py-1 rounded-lg text-sm" onClick={()=>navigate('/create/repository')}>
           <MdCreateNewFolder className="text-lg" /> new
         </button>
       </div>

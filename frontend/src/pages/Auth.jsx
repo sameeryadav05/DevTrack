@@ -8,6 +8,7 @@ const Auth = () => {
   const isAuthenticated = AuthStore((state) => state.isAuthenticated)
   const [isRegister, setIsRegister] = useState(true)
 
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0b0f14] text-white">
 

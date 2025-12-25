@@ -20,6 +20,7 @@ const sendEmail = async ({email,subject,message})=>{
     }
     await transporter.sendMail(options)
     } catch (error) {
+            console.log(error)
             console.log("failed to send email")
     }
 
