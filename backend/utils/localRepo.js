@@ -9,8 +9,16 @@ const COMMITS_DIR = 'commits';
 const HEAD_FILE = 'HEAD';
 
 async function getRepoPath() {
-    let currentDir = process.cwd();
-    let repoPath = path.join(currentDir, REPO_DIR);
+    // Use the original working directory, not the backend directory
+    const currentDir = process.cwd();
+    
+    // If we're in the backend directory, that's wrong - user should be in their project
+    if (currentDir.includes('backend') && currentDir.endsWith('backend')) {
+        // This shouldn't happen, but if it does, warn the user
+        return null;
+    }
+    
+    const repoPath = path.join(currentDir, REPO_DIR);
     
     // Check if we're in a repo
     try {
@@ -23,7 +31,14 @@ async function getRepoPath() {
 }
 
 async function findRepoPath() {
+    // Get current working directory (should be user's project directory)
     let currentDir = process.cwd();
+    
+    // Safety check - don't allow operations in backend directory
+    if (currentDir.includes('backend') && (currentDir.endsWith('backend') || currentDir.endsWith('backend\\'))) {
+        return null;
+    }
+    
     const root = path.parse(currentDir).root;
     
     while (currentDir !== root) {
@@ -40,7 +55,15 @@ async function findRepoPath() {
 }
 
 async function initRepo() {
-    const repoPath = path.join(process.cwd(), REPO_DIR);
+    // Get current working directory (should be user's project directory)
+    const currentDir = process.cwd();
+    
+    // Safety check - don't initialize in backend directory
+    if (currentDir.includes('backend') && (currentDir.endsWith('backend') || currentDir.endsWith('backend\\'))) {
+        throw new Error('Cannot initialize repository in the backend directory. Please run this command in your project directory.');
+    }
+    
+    const repoPath = path.join(currentDir, REPO_DIR);
     
     try {
         await fs.mkdir(repoPath, { recursive: true });
@@ -123,7 +146,23 @@ async function addToStaging(filePath) {
         throw new Error('Not in a repository. Run "devtrack init" first.');
     }
     
-    const fullPath = path.resolve(process.cwd(), filePath);
+    // Get current working directory (should be user's project directory)
+    const currentDir = process.cwd();
+    
+    // Safety check
+    if (currentDir.includes('backend') && (currentDir.endsWith('backend') || currentDir.endsWith('backend\\'))) {
+        throw new Error('Cannot add files from backend directory. Please run this command in your project directory.');
+    }
+    
+    const fullPath = path.resolve(currentDir, filePath);
+    
+    // Check if file exists
+    try {
+        await fs.access(fullPath);
+    } catch {
+        throw new Error(`File not found: ${filePath}`);
+    }
+    
     const fileName = path.basename(filePath);
     const stagingPath = path.join(repoPath, STAGING_DIR, fileName);
     

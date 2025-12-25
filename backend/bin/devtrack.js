@@ -5,13 +5,23 @@
  * This file allows the CLI to be run as a global command
  */
 
-// Set the working directory to the backend folder
-const path = require('path');
+// CRITICAL: Preserve the user's current working directory
+// The user should be in their project directory, NOT the backend directory
+const originalCwd = process.cwd();
 
 // Find the backend directory (where index.js is located)
+const path = require('path');
 const backendDir = path.resolve(__dirname, '..');
-process.chdir(backendDir);
 
-// Now require the main index.js
-require('../index.js');
+// Store backend dir in env for modules that need it
+process.env.DEVTRACK_BACKEND_DIR = backendDir;
+
+// Load dotenv from backend directory BEFORE loading index.js
+const dotenv = require('dotenv');
+const dotenvPath = path.join(backendDir, '.env');
+dotenv.config({ path: dotenvPath });
+
+// Now load the main index.js
+// Note: We do NOT change directory, so process.cwd() remains the user's project directory
+require(path.join(backendDir, 'index.js'));
 

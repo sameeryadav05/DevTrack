@@ -9,7 +9,8 @@ const {
     createCommit,
     getCommits,
     getCommit,
-    findRepoPath
+    findRepoPath,
+    getRepoPath
 } = require('../utils/localRepo');
 const { makeRequest } = require('../utils/cliClient');
 const { getToken } = require('../utils/cliAuth');
@@ -19,9 +20,10 @@ const path = require('path');
 // Initialize local repository
 async function init() {
     try {
-        const repoPath = await findRepoPath();
-        if (repoPath) {
-            console.log('❌ Repository already initialized in this directory or parent directory.');
+        // Only check current directory, not parent directories
+        const currentRepoPath = await getRepoPath();
+        if (currentRepoPath) {
+            console.log('❌ Repository already initialized in this directory.');
             return;
         }
         

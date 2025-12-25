@@ -87,15 +87,26 @@ yargs(hideBin(process.argv))
 .command("login","Login to DevTrack CLI",{},login)
 .command("logout","Logout from DevTrack CLI",{},logout)
 .command("init","Initialize a new repository in current directory",{},init)
-.command("remote add <repoId>","Add remote repository",(yargs)=>{
+.command("remote [action] [repoId]","Manage remote repository",(yargs)=>{
+    yargs.positional("action",{
+        describe:"Action: 'add' to add remote, or omit to show",
+        type:'string'
+    })
     yargs.positional("repoId",{
-        describe:"Repository ID from DevTrack",
+        describe:"Repository ID (required when action is 'add')",
         type:'string'
     })
 },async (argv)=>{
-    await remoteAdd(argv.repoId)
+    if(argv.action === 'add') {
+        if(!argv.repoId) {
+            console.error('❌ Repository ID required. Usage: devtrack remote add <repoId>');
+            process.exit(1);
+        }
+        await remoteAdd(argv.repoId);
+    } else {
+        await remoteShow();
+    }
 })
-.command("remote","Show remote repository",{},remoteShow)
 .command("add <files..>","Add files to staging area",(yargs)=>{
     yargs.positional("files",{
         describe:"Files to add (space-separated)",

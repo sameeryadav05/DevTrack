@@ -359,7 +359,7 @@ const RepoDetail = () => {
           <div className="space-y-3 mb-4">
             <div className="bg-[#0d1117] border border-[#30363d] rounded-md p-4 font-mono text-sm">
               <div className="text-[#8b949e] mb-2"># 1. Login to CLI</div>
-              <code className="text-[#58a6ff]">node index.js login</code>
+              <code className="text-[#58a6ff]">devtrack login</code>
             </div>
             
             <div className="bg-[#0d1117] border border-[#30363d] rounded-md p-4 font-mono text-sm">
@@ -369,16 +369,16 @@ const RepoDetail = () => {
             
             <div className="bg-[#0d1117] border border-[#30363d] rounded-md p-4 font-mono text-sm">
               <div className="text-[#8b949e] mb-2"># 3. Initialize repository</div>
-              <code className="text-[#58a6ff]">node index.js init</code>
+              <code className="text-[#58a6ff]">devtrack init</code>
             </div>
             
             <div className="bg-[#0d1117] border border-[#30363d] rounded-md p-4 font-mono text-sm">
               <div className="text-[#8b949e] mb-2"># 4. Connect to this repository</div>
               <div className="flex items-center gap-2">
-                <code className="text-[#58a6ff]">node index.js remote add {repo?._id}</code>
+                <code className="text-[#58a6ff]">devtrack remote add {repo?._id}</code>
                 <button
                   onClick={() => {
-                    navigator.clipboard.writeText(`node index.js remote add ${repo?._id}`);
+                    navigator.clipboard.writeText(`devtrack remote add ${repo?._id}`);
                     toast.success('Command copied to clipboard!');
                   }}
                   className="px-2 py-1 bg-[#238636] hover:bg-[#2ea043] rounded text-xs"
@@ -390,9 +390,9 @@ const RepoDetail = () => {
             
             <div className="bg-[#0d1117] border border-[#30363d] rounded-md p-4 font-mono text-sm">
               <div className="text-[#8b949e] mb-2"># 5. Add files and commit</div>
-              <code className="text-[#58a6ff]">node index.js add file1.js</code><br/>
-              <code className="text-[#58a6ff]">node index.js commit "Initial commit"</code><br/>
-              <code className="text-[#58a6ff]">node index.js push</code>
+              <code className="text-[#58a6ff]">devtrack add file1.js</code><br/>
+              <code className="text-[#58a6ff]">devtrack commit "Initial commit"</code><br/>
+              <code className="text-[#58a6ff]">devtrack push</code>
             </div>
           </div>
           
