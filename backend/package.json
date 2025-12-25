@@ -7,7 +7,8 @@
   "type": "commonjs",
   "main": "index.js",
   "bin": {
-    "devtrack": "./bin/devtrack.js"
+    "devtrack": "./bin/devtrack.js",
+    "devtrack-cli": "./bin/devtrack.js"
   },
   "scripts": {
     "dev": "node index.js start",
