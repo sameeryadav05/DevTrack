@@ -21,6 +21,7 @@ import { applyTokenToAxios } from "./api/ApplyToken.js";
 import AuthStore from "./store/AuthStore";
 import Dashboard from "./components/dashboard/Dashboard.jsx";
 import Repository from "./pages/Repository.jsx";
+import RepoDetail from "./pages/RepoDetail.jsx";
 
 const Layout = () => (
   <>
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path:'/profile',
         element:<ProtectedRoute><Profile/></ProtectedRoute>
+      },
+      {
+        path:'/repo/:repoId',
+        element:<ProtectedRoute><RepoDetail/></ProtectedRoute>
       }
     ],
   },

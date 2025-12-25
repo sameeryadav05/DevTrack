@@ -26,18 +26,30 @@ const getUserProfile = WrapAsync(async(req,res)=>{
 })
 const updateUserProfile = WrapAsync(async(req,res)=>{
     const userId = req.user.id
-    const {password,username} = req.body
+    const {password,username,profileImage} = req.body
+    const updateData = {}
 
     if(password)
     {
         const hashedPassword = await bcrypt.hash(password,10)
-        await User.findByIdAndUpdate(userId,{password:hashedPassword})
+        updateData.password = hashedPassword
     }
     if(username)
     {
-        await User.findByIdAndUpdate(userId,{username:username})
+        updateData.username = username
     }
-    res.status(200).send("profile updated !");
+    if(profileImage)
+    {
+        updateData.profileImage = profileImage
+    }
+
+    if(Object.keys(updateData).length === 0)
+    {
+        throw new ExpressError(400,"No fields to update")
+    }
+
+    await User.findByIdAndUpdate(userId,updateData)
+    res.status(200).json({message:"profile updated !"});
 })
 const DeleteUserProfile = WrapAsync(async(req,res)=>{
 

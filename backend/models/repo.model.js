@@ -30,7 +30,16 @@ const repoSchema = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:'Issue'
         }
-    ]
+    ],
+    initialized: {
+        type: Boolean,
+        default: false
+    },
+    stagedFiles: [{
+        filename: String,
+        content: String,
+        path: String
+    }]
 })
 const Repository = mongoose.model('Repository',repoSchema);
 

@@ -3,13 +3,8 @@ const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers");
 const dotenv = require("dotenv");
 const httpStatus = require('http-status')
-const { init } = require("./controllers/init.js");
-const { add } = require("./controllers/add.js");
-const { commit } = require("./controllers/commit.js");
-const { push } = require("./controllers/push.js");
-const { pull } = require("./controllers/pull.js");
-const { revert } = require("./controllers/revert.js");
-const { logCommits } = require("./controllers/log.js");
+const { login, logout } = require("./controllers/cliController.js");
+const { init, remoteAdd, remoteShow, add, status, commit, log, push, pull, revert } = require("./controllers/gitController.js");
 const http = require('http')
 const cors = require('cors')
 const {Server} = require('socket.io');
@@ -89,32 +84,51 @@ async function start()
 
 yargs(hideBin(process.argv))
 .command("start","command to start the server",{},start)
-.command("init","To Initialize a new Repository",{},init)
-.command("add <file>","Add a file to Repository",(yargs)=>
-    {
-        yargs.positional("file",{
-            describe:'Add file to staging area',
-            type:'string'})
-    },(argv)=>{
-        add(argv.file)
+.command("login","Login to DevTrack CLI",{},login)
+.command("logout","Logout from DevTrack CLI",{},logout)
+.command("init","Initialize a new repository in current directory",{},init)
+.command("remote add <repoId>","Add remote repository",(yargs)=>{
+    yargs.positional("repoId",{
+        describe:"Repository ID from DevTrack",
+        type:'string'
     })
-.command("commit <message>","commit the staged files",(yargs)=>{
+},async (argv)=>{
+    await remoteAdd(argv.repoId)
+})
+.command("remote","Show remote repository",{},remoteShow)
+.command("add <files..>","Add files to staging area",(yargs)=>{
+    yargs.positional("files",{
+        describe:"Files to add (space-separated)",
+        type:'array'
+    })
+},async (argv)=>{
+    await add(argv.files)
+})
+.command("status","Show repository status",{},status)
+.command("commit <message>","Commit staged files",(yargs)=>{
     yargs.positional("message",{
-        describe:"commit message",
+        describe:"Commit message",
         type:'string'
     })
-},(argv)=>commit(argv.message))
-.command("push","push commits",{},push)
-.command("log","log commits",{},logCommits)
-.command("pull","pull commits",{},pull)
-.command("revert <commitId>","Revert to a commit",(yargs)=>{
+},async (argv)=>{
+    await commit(argv.message)
+})
+.command("log","Show commit history",{},log)
+.command("push","Push commits to remote repository",{},push)
+.command("pull","Pull commits from remote repository",{},pull)
+.command("revert <commitId>","Revert to a specific commit",(yargs)=>{
     yargs.positional("commitId",{
-        describe:"commit Id to which revert",
+        describe:"Commit ID to revert to",
         type:'string'
     })
-},(argv)=>revert(argv.commitId))
+},async (argv)=>{
+    await revert(argv.commitId)
+})
 .demandCommand(1,"enter a command")
-.help().argv
+.help()
+.alias('help', 'h')
+.version('1.0.0')
+.argv
 
 
 

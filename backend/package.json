@@ -1,13 +1,17 @@
 {
-  "name": "backend",
+  "name": "devtrack-cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "DevTrack - Custom Version Control System CLI",
   "license": "ISC",
   "author": "",
   "type": "commonjs",
   "main": "index.js",
+  "bin": {
+    "devtrack": "./bin/devtrack.js"
+  },
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "node index.js start",
+    "start": "node index.js start"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.75.0",

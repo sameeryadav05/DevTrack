@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import API from '../api/Axios';
 import { useNavigate } from "react-router-dom";
 import AuthStore from "../store/AuthStore";
+import { toast } from "react-toastify";
 
 const CreateRepository = () => {
   const [formData, setFormData] = useState({
@@ -39,7 +39,7 @@ const CreateRepository = () => {
       setLoading(true);
       setError("");
 
-      await API.post("/repo/create", {
+      const res = await API.post("/repo/create", {
         owner:user.id,
         name: formData.name,
         description: formData.description,
@@ -47,7 +47,8 @@ const CreateRepository = () => {
         content: formData.content,
       });
 
-      alert("Repository created successfully 🚀");
+      toast.success("Repository created successfully 🚀");
+      navigate(`/repo/${res.data.RepositoryId}`);
     } catch (err) {
         console.log(err)
       setError(err.response?.data?.message || "Something went wrong");

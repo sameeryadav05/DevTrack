@@ -132,7 +132,10 @@ const Dashboard = () => {
               />
             </div>
 
-            <a className="text-sm hover:underline cursor-pointer truncate">
+            <a 
+              onClick={() => navigate(`/repo/${repo._id}`)}
+              className="text-sm hover:underline cursor-pointer truncate"
+            >
               {repo.owner.username}/{repo.name}
             </a>
           </div>
