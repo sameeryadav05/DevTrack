@@ -1,14 +1,13 @@
 {
-  "name": "devtrack-cli",
-  "version": "1.0.0",
+  "name": "@sameeryadav05/codetrack",
+  "version": "1.0.3",
   "description": "DevTrack - Custom Version Control System CLI",
   "license": "ISC",
   "author": "",
   "type": "commonjs",
   "main": "index.js",
   "bin": {
-    "devtrack": "./bin/devtrack.js",
-    "devtrack-cli": "./bin/devtrack.js"
+    "devtrack": "./bin/devtrack.js"
   },
   "scripts": {
     "dev": "node index.js start",

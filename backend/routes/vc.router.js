@@ -1,13 +1,6 @@
 const express = require('express');
 const { auth } = require('../middleware/auth.js');
-const {
-    initRepo,
-    addFiles,
-    commitFiles,
-    getCommitLog,
-    pushCommits,
-    pullCommits,
-    getStagedFiles
+const { initRepo, addFiles,commitFiles,getCommitLog,pushCommits,pullCommits,getStagedFiles
 } = require('../controllers/vcController.js');
 
 const vcRouter = express.Router();
